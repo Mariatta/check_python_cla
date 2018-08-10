@@ -50,18 +50,20 @@ async def check_cla(gh_username):
             else:
                 return Status.username_not_found.value
 
-
-app = web.Application()
-aiohttp_jinja2.setup(
-    app, loader=jinja2.FileSystemLoader(os.path.join(os.getcwd(), "templates"))
-)
-app["static_root_url"] = os.path.join(os.getcwd(), "static")
-
-app.add_routes(
-    [
-        web.get("/", handle_get),
-        web.post("/", handle_post),
-        web.static("/static", os.path.join(os.getcwd(), "static")),
-    ]
-)
-web.run_app(app)
+if __name__ == "__main__":  # pragma: no cover
+    app = web.Application()
+    aiohttp_jinja2.setup(
+        app, loader=jinja2.FileSystemLoader(os.path.join(os.getcwd(), "templates"))
+    )
+    app["static_root_url"] = os.path.join(os.getcwd(), "static")
+    port = os.environ.get("PORT")
+    if port is not None:
+        port = int(port)
+    app.add_routes(
+        [
+            web.get("/", handle_get),
+            web.post("/", handle_post),
+            web.static("/static", os.path.join(os.getcwd(), "static")),
+        ]
+    )
+    web.run_app(app, port=port)
