@@ -1,2 +1,2 @@
 aiohttp==3.3.2
-aiohttp-jinja2
+aiohttp-jinja2==1.0.0
