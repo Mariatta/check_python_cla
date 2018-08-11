@@ -67,15 +67,17 @@ async def check_cla(gh_username):
                 # Explicitly decode JSON as b.p.o doesn't set the content-type as
                 # `application/json`.
             results = json.loads(await response.text())
-            if results.get(gh_username):
-                if results[gh_username] is True:
+            try:
+                status = results[gh_username]
+            except KeyError:
+                raise CheckCLAException(f"Invalid input: {gh_username}")
+            else:
+                if status is True:
                     return Status.signed.value
-                elif results[gh_username] is False:
+                elif status is False:
                     return Status.not_signed.value
                 else:
                     return Status.username_not_found.value
-            else:
-                raise CheckCLAException(f"Invalid input: {gh_username}")
 
 
 if __name__ == "__main__":  # pragma: no cover
