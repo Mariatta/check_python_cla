@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-    <img class="mb-4" src="https://www.python.org/static/community_logos/python-logo-master-v3-TM.png" alt="" height="72">
+    <a href="/"><img class="mb-4" src="https://www.python.org/static/community_logos/python-logo-master-v3-TM.png" alt="" height="72"></a>
 
     {% if gh_username and cla_result %}
         <h1 class="h3 mb-3 font-weight-normal"><a href="https://github.com/{{gh_username}}">{{ gh_username }}</a></h1>
@@ -17,12 +17,18 @@
         </h1>
     {% endif %}
 
+    {% if error_message %}
+        <div class="alert alert-danger" role="alert">
+          {{ error_message }}
+        </div>
+    {% endif %}
+
     <form class="form-checkcla" action="/" method="post" accept-charset="utf-8" enctype="application/x-www-form-urlencoded">
         {% if gh_username and cla_result %}
             <h1 class="h3 mb-3 font-weight-normal">Check another?</h1>
         {% else %}
-            <h1 class="h3 mb-3 font-weight-normal">Check if you have signed Python's CLA.</h1>
-            <h4>Required before we can accept your contribution to Python.</h4>
+        <h1 class="h3 mb-3 font-weight-normal">Check if you have signed Python's <a href="https://www.python.org/psf/contrib/contrib-form/">CLA</a>.</h1>
+        <h4>Required before we can accept your contribution to <a href="https://github.com/python/cpython">Python</a>.</h4>
         {% endif %}
         <input id="gh_username" name="gh_username" type="text" value="" autofocus class="form-control" placeholder="GitHub username"/>
         <input type="submit" class="btn btn-lg btn-primary btn-block" value="Check"/>

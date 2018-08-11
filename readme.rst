@@ -15,3 +15,11 @@ Future idea(s)
 
 - Write tests!
 
+
+Deploy
+======
+
+|Deploy|
+
+.. |Deploy| image:: https://www.herokucdn.com/deploy/button.svg
+   :target: https://heroku.com/deploy?template=https://github.com/mariatta/check_python_cla

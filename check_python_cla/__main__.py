@@ -10,6 +10,26 @@ from aiohttp import web
 BPO_URL = "https://bugs.python.org/user?@template=clacheck&github_names="
 
 
+class CheckCLAException(Exception):
+    pass
+
+
+@web.middleware
+async def error_middleware(request, handler):
+    try:
+        response = await handler(request)
+    except web.HTTPException as ex:
+        if ex.text:
+            message = ex.text
+        else:
+            message = ex.reason
+        context = {"error_message": message, "status": ex.status}
+        response = aiohttp_jinja2.render_template(
+            "error.html", request, context=context
+        )
+    return response
+
+
 class Status(enum.Enum):
     """The CLA status of the contribution."""
 
@@ -28,8 +48,12 @@ async def handle_post(request):
     gh_username = data.get("gh_username", "")
     context = {}
     if len(gh_username) > 0:
-        cla_result = await check_cla(gh_username)
-        context = {"gh_username": gh_username, "cla_result": cla_result}
+        try:
+            cla_result = await check_cla(gh_username)
+        except CheckCLAException as e:
+            context = {"error_message": e}
+        else:
+            context = {"gh_username": gh_username, "cla_result": cla_result}
     response = aiohttp_jinja2.render_template("index.html", request, context=context)
     return response
 
@@ -39,19 +63,23 @@ async def check_cla(gh_username):
         async with session.get(f"{BPO_URL}{gh_username}") as response:
             if response.status >= 300:
                 msg = f"unexpected response for {response.url!r}: {response.status}"
-                raise aiohttp.web.HTTPInternalServerError(text=msg)
+                raise CheckCLAException(msg)
                 # Explicitly decode JSON as b.p.o doesn't set the content-type as
                 # `application/json`.
             results = json.loads(await response.text())
-            if results[gh_username] == True:
-                return Status.signed.value
-            elif results[gh_username] == False:
-                return Status.not_signed.value
+            if results.get(gh_username):
+                if results[gh_username] is True:
+                    return Status.signed.value
+                elif results[gh_username] is False:
+                    return Status.not_signed.value
+                else:
+                    return Status.username_not_found.value
             else:
-                return Status.username_not_found.value
+                raise CheckCLAException(f"Invalid input: {gh_username}")
+
 
 if __name__ == "__main__":  # pragma: no cover
-    app = web.Application()
+    app = web.Application(middlewares=[error_middleware])
     aiohttp_jinja2.setup(
         app, loader=jinja2.FileSystemLoader(os.path.join(os.getcwd(), "templates"))
     )
