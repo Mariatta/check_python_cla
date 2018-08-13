@@ -42,7 +42,7 @@ async def handle_post(request):
     Otherwise, just display a page saying whether user has signed the CLA or not.
     """
     data = await request.post()
-    gh_username = data.get("gh_username", "")
+    gh_username = data.get("gh_username", "").strip()
     context = {}
     template = "index.html"
     if len(gh_username) > 0:
