@@ -1,4 +1,4 @@
-SEARCH_PR_URL = '/search/issues?q=type:pr+author:{gh_username}+state:open+repo:python/cpython+label:"CLA not signed"&sort=created&order=asc'
+SEARCH_PR_URL = '/search/issues?q=type:pr+author:{gh_username}+state:open+org:python+label:"CLA not signed"&sort=created&order=asc'
 
 
 async def get_user_pending_pull_requests(gh, gh_username):
