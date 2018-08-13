@@ -1,21 +1,25 @@
 <!doctype html>
 <html lang="en">
     <head>
-      <!-- Required meta tags -->
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-      <!-- Bootstrap CSS -->
-      <link rel="stylesheet" href="https://bootswatch.com/4/pulse/bootstrap.min.css">
-      <link href="/static/site.css" rel="stylesheet">
-      <title>Check Python CLA</title>
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://bootswatch.com/4/pulse/bootstrap.min.css">
+        <link href="/static/site.css" rel="stylesheet">
+        {% block css %}
+        {% endblock %}
+        <title>Check Python CLA</title>
     </head>
     <body class="text-center">
         <div class="content">
             {% block content %}
             {% endblock %}
-            <p class="mt-5 mb-3 text-muted">© 2018 <a href="https://mariatta.ca">Mariatta</a> | <a href="https://github.com/mariatta/check_python_cla">View source</a></p>
         </div>
+        <footer class="footer">
+            <p class="text-muted">© 2018 <a href="https://mariatta.ca">Mariatta</a> | <a href="https://github.com/mariatta/check_python_cla">View source</a></p>
+        </footer>
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

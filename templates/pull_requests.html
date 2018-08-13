@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block css %}
+    <link href="/static/cover.css" rel="stylesheet">
+{% endblock %}
+{% block content %}
+    <a href="/"><img class="mb-4" src="https://www.python.org/static/community_logos/python-logo-master-v3-TM.png" alt="" height="72"></a>
+    <h1 class="h3 mb-3 font-weight-normal"><a href="https://github.com/{{gh_username}}">{{ gh_username }}</a> has signed the CLA ✅</h1>
+    <p class="font-weight-normal">And we've updated these pull requests with <span class="badge badge-success">CLA signed</span> label.</p>
+    <table class="table">
+        <tbody>
+            {% for pr in pull_requests %}
+                <tr>
+                    <th scope="row"><a href="{{ pr.html_url }}">GH-{{ pr.number }} {{ pr.title }}</a></th>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

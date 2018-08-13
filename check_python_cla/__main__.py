@@ -1,21 +1,19 @@
-import enum
-import json
 import os
 
 import aiohttp
 import aiohttp_jinja2
 import jinja2
 from aiohttp import web
+from gidgethub.aiohttp import GitHubAPI
 
-BPO_URL = "https://bugs.python.org/user?@template=clacheck&github_names="
-
-
-class CheckCLAException(Exception):
-    pass
+from check_python_cla.bpo import Status, check_cla
+from check_python_cla.exceptions import CheckCLAException
+from check_python_cla.github import get_and_update_pending_prs
 
 
 @web.middleware
 async def error_middleware(request, handler):
+    """Middlware to render error message using the template renderer."""
     try:
         response = await handler(request)
     except web.HTTPException as ex:
@@ -30,54 +28,42 @@ async def error_middleware(request, handler):
     return response
 
 
-class Status(enum.Enum):
-    """The CLA status of the contribution."""
-
-    signed = 1
-    not_signed = 2
-    username_not_found = 3
-
-
 async def handle_get(request):
+    """Render a page with a textbox and submit button."""
     response = aiohttp_jinja2.render_template("index.html", request, context={})
     return response
 
 
 async def handle_post(request):
+    """Check if the user has signed the CLA.
+
+    If the user has signed the CLA, and there are still open PRs with `CLA not signed` label,
+    remove the `CLA not signed` label.
+    Otherwise, just display a page saying whether user has signed the CLA or not.
+    """
     data = await request.post()
-    gh_username = data.get("gh_username", "")
+    gh_username = data.get("gh_username", "").strip()
     context = {}
+    template = "index.html"
     if len(gh_username) > 0:
-        try:
-            cla_result = await check_cla(gh_username)
-        except CheckCLAException as e:
-            context = {"error_message": e}
-        else:
-            context = {"gh_username": gh_username, "cla_result": cla_result}
-    response = aiohttp_jinja2.render_template("index.html", request, context=context)
-    return response
-
-
-async def check_cla(gh_username):
-    async with aiohttp.ClientSession() as session:
-        async with session.get(f"{BPO_URL}{gh_username}") as response:
-            if response.status >= 300:
-                msg = f"unexpected response for {response.url!r}: {response.status}"
-                raise CheckCLAException(msg)
-                # Explicitly decode JSON as b.p.o doesn't set the content-type as
-                # `application/json`.
-            results = json.loads(await response.text())
+        async with aiohttp.ClientSession() as session:
             try:
-                status = results[gh_username]
-            except KeyError:
-                raise CheckCLAException(f"Invalid input: {gh_username}")
+                cla_result = await check_cla(session, gh_username)
+            except CheckCLAException as e:
+                context = {"error_message": e}
             else:
-                if status is True:
-                    return Status.signed.value
-                elif status is False:
-                    return Status.not_signed.value
-                else:
-                    return Status.username_not_found.value
+                context = {"gh_username": gh_username, "cla_result": cla_result}
+                if cla_result == Status.signed.value:
+                    gh = GitHubAPI(
+                        session, "python/cpython", oauth_token=os.environ.get("GH_AUTH")
+                    )
+                    pending_prs = await get_and_update_pending_prs(gh, gh_username)
+                    if len(pending_prs) > 0:
+                        template = "pull_requests.html"
+                        context["pull_requests"] = pending_prs
+
+    response = aiohttp_jinja2.render_template(template, request, context=context)
+    return response
 
 
 if __name__ == "__main__":  # pragma: no cover
