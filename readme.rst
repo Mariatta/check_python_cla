@@ -8,13 +8,6 @@ Type in your GitHub username to check if you've signed the CLA.
 
 Some codes were copy pasted from `the-knights-who-say-ni <https://github.com/python/the-knights-who-say-ni>`_.
 
-Future idea(s)
-==============
-
-- We can potentially lift the contributor's ``CLA not signed`` label from here.
-
-- Write tests!
-
 
 Deploy
 ======
@@ -23,3 +16,12 @@ Deploy
 
 .. |Deploy| image:: https://www.herokucdn.com/deploy/button.svg
    :target: https://heroku.com/deploy?template=https://github.com/mariatta/check_python_cla
+
+
+Requirements and dependencies
+=============================
+
+- Python 3.7+
+- aiohttp
+- aiohttp-jinja2
+- gidgethub
