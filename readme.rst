@@ -10,8 +10,13 @@ Check Python CLA
 .. image:: https://codecov.io/gh/Mariatta/check_python_cla/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/Mariatta/check_python_cla
 
+.. image:: https://mariatta.ca/github-buttons/github-btn.html?user=mariatta&type=sponsor
+    :target: https://github.com/users/Mariatta/sponsorship
+
 .. image:: https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg
     :target: https://saythanks.io/to/Mariatta
+
+
 
 Type in your GitHub username to check if you've signed the CLA.
 
