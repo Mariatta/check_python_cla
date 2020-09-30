@@ -1,4 +1,4 @@
-Check Python CLA
+Check Python CLA - An Amazing Project
 ----------------
 
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
@@ -21,7 +21,7 @@ Check Python CLA
 Type in your GitHub username to check if you've signed the CLA.
 
 If you've signed the CLA, and there are still open PRs with ``CLA not signed`` label,
-the label will be removed.
+The label will be removed.
 
 Some codes were copy pasted from `the-knights-who-say-ni <https://github.com/python/the-knights-who-say-ni>`_.
 
