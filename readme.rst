@@ -17,13 +17,14 @@ Check Python CLA
     :target: https://saythanks.io/to/Mariatta
 
 
+How it works?
+-Type in your GitHub username to check if you've signed the CLA.
 
-Type in your GitHub username to check if you've signed the CLA.
-
+NOTE:
 If you've signed the CLA, and there are still open PRs with ``CLA not signed`` label,
 the label will be removed.
 
-Some codes were copy pasted from `the-knights-who-say-ni <https://github.com/python/the-knights-who-say-ni>`_.
+*Some codes were copied from `the-knights-who-say-ni <https://github.com/python/the-knights-who-say-ni>`_.
 
 
 Deploy
