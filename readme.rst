@@ -7,7 +7,7 @@ Check Python CLA
 .. image:: https://travis-ci.com/Mariatta/check_python_cla.svg?branch=master
     :target: https://travis-ci.com/Mariatta/check_python_cla
 
-.. image:: https://codecov.io/gh/Mariatta/check_python_cla/branch/master/graph/badge.svg
+.. image::( https://codecov.io/gh/Mariatta/check_python_cla/branch/master/graph/badge.svg )
     :target: https://codecov.io/gh/Mariatta/check_python_cla
 
 .. image:: https://mariatta.ca/github-buttons/github-btn.html?user=mariatta&type=sponsor
@@ -20,7 +20,7 @@ Check Python CLA
 
 Type in your GitHub username to check if you've signed the CLA.
 
-If you've signed the CLA, and there are still open PRs with ``CLA not signed`` label,
+If you've signed the CLA, but it's still showing OPEN PRs with ``CLA not signed`` label,
 the label will be removed.
 
 Some codes were copy pasted from `the-knights-who-say-ni <https://github.com/python/the-knights-who-say-ni>`_.
