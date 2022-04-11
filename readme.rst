@@ -1,6 +1,9 @@
 Check Python CLA
 ----------------
 
+This app has been decommissioned. The Python org is now using cpython-cla-bot to check CLAs.
+
+
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
     :target: https://github.com/ambv/black
 
