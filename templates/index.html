@@ -26,12 +26,12 @@
 
     <form class="form-checkcla" action="/" method="post" accept-charset="utf-8" enctype="application/x-www-form-urlencoded">
         {% if gh_username and cla_result %}
-            <h1 class="h3 mb-3 font-weight-normal">Check another?</h1>
+            <h1 class="h3 mb-3 font-weight-normal">Check again?</h1>
         {% else %}
         <h1 class="h3 mb-3 font-weight-normal">Check if you have signed Python's <a href="https://www.python.org/psf/contrib/contrib-form/">CLA</a>.</h1>
         <h4>Required before we can accept your contribution to <a href="https://github.com/python/cpython">Python</a>.</h4>
         {% endif %}
-        <input id="gh_username" name="gh_username" type="text" value="" autofocus class="form-control" placeholder="GitHub username" required/>
+        <input id="gh_username" name="gh_username" type="text" value="{{gh_username}}" autofocus class="form-control" placeholder="GitHub username" required/>
         <input type="submit" class="btn btn-lg btn-primary btn-block" value="Check"/>
     </form>
 {% endblock %}
